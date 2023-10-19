@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => MyHomePage(),
         '/lock': (context) => LockPage(),
+        '/dict': (context) => DisctionaryScreen(),
       },
     );
   }
@@ -20,6 +21,100 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
+}
+
+class DisctionaryScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.blue,
+      appBar: AppBar(
+        title: Text('SIGNOMETRY'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            // Search Bar
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Search',
+                  prefixIcon: Icon(Icons.search),
+                ),
+              ),
+            ),
+            SizedBox(height: 16.0),
+            // ASL Section
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'American Sign Language',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                    SizedBox(height: 12.0),
+                    Text(
+                      'Numbers',
+                      style: TextStyle(fontSize: 12, color: Colors.white),
+                    ),
+                    SizedBox(height: 12.0),
+                    Wrap(
+                      spacing: 16.0,
+                      runSpacing: 16.0,
+                      children: List.generate(10, (index) => _buildSignCard(index.toString())),
+                    ),
+                    SizedBox(height: 24.0),
+                    Text(
+                      'Alphabet',
+                      style: TextStyle(fontSize: 12, color: Colors.white),
+                    ),
+                    SizedBox(height: 12.0),
+                    Wrap(
+                      spacing: 16.0,
+                      runSpacing: 16.0,
+                      children: 'abcdefghijklmnopqrstuvwxyz'.split('').map((letter) => _buildSignCard(letter)).toList(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      // Your Bottom Navigation Bar
+    );
+  }
+
+  Widget _buildSignCard(String sign) {
+    return Container(
+      width: 80,
+      height: 100,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.0),
+        image: DecorationImage(
+          image: AssetImage('assets/$sign.jpeg'),  // Adjust based on your asset directory structure
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Center(
+        child: Text(
+          sign.toUpperCase(),
+          style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
 }
 
 class LockPage extends StatelessWidget {
@@ -120,9 +215,9 @@ class LockPage extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
+              icon: Icon(Icons.person, color: Colors.white),
               onPressed: () {
-                Navigator.of(context).pushNamedAndRemoveUntil('/lock', ModalRoute.withName('/'));
+                
               },
             ),
           ],
@@ -131,6 +226,7 @@ class LockPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Action for floating button
+          Navigator.of(context).pushNamedAndRemoveUntil('/lock', ModalRoute.withName('/'));
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.purple,
@@ -188,6 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   _currentIndex = 1;
                 });
+                Navigator.of(context).pushNamed('/dict');
               },
             ),
             SizedBox(width: 50),  // Creates space for the floating action button
@@ -211,3 +308,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
