@@ -92,25 +92,83 @@ class DisctionaryScreen extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.purple,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: Colors.black,
+        notchMargin: 6.0,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.home, color: Colors.white),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.library_books, color: Colors.white),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => DisctionaryScreen()));
+              },
+            ),
+            SizedBox(width: 50),  // Creates space for the floating action button
+            IconButton(
+              icon: Icon(Icons.lock, color: Colors.white,),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed('/lock');
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.person, color: Colors.white),
+              onPressed: () {
+
+              },
+            ),
+          ],
+        ),
+      ),
       // Your Bottom Navigation Bar
     );
   }
 
   Widget _buildSignCard(String sign) {
     return Container(
-      width: 80,
-      height: 100,
+      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0), // Add spacing between the boxes
+      width: 150.0,  // Increase width
+      height: 150.0,  // Increase height
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
+        color: Colors.blueGrey,
+        borderRadius: BorderRadius.circular(20.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 6.0,
+            offset: Offset(0, 2),
+          ),
+        ],
         image: DecorationImage(
-          image: AssetImage('assets/$sign.jpeg'),  // Adjust based on your asset directory structure
+          image: AssetImage('assets/$sign.jpeg'),
           fit: BoxFit.cover,
         ),
       ),
       child: Center(
         child: Text(
           sign.toUpperCase(),
-          style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 24.0,  // Increase font size
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
       ),
     );
@@ -199,12 +257,15 @@ class LockPage extends StatelessWidget {
               icon: Icon(Icons.home, color: Colors.white),
               onPressed: () {
                 // Navigate to Home Page
+                Navigator.pop(context);
               },
             ),
             IconButton(
               icon: Icon(Icons.library_books, color: Colors.white),
               onPressed: () {
                 // Navigate to Library Page
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed('/dict');
               },
             ),
             SizedBox(width: 50),  // Creates space for the floating action button
@@ -226,7 +287,7 @@ class LockPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Action for floating button
-          Navigator.of(context).pushNamedAndRemoveUntil('/lock', ModalRoute.withName('/'));
+          // Navigator.of(context).pushNamedAndRemoveUntil('/lock', ModalRoute.withName('/'));
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.purple,
