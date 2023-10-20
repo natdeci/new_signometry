@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => MyHomePage(),
         '/lock': (context) => LockPage(),
         '/dict': (context) => DisctionaryScreen(),
-        '/prof': (context) => ProfileScreen(),
+        '/prof': (context) => ProfileScreen(user: defaultUser),
       },
     );
   }
@@ -192,7 +192,7 @@ class LockPage extends StatelessWidget {
           },
         ),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFF7E8AB3),
       body: SafeArea(
         child: Center(
           child: Container(
@@ -301,7 +301,31 @@ class LockPage extends StatelessWidget {
   }
 }
 
-class ProfileScreen extends StatelessWidget {
+class User {
+  String name;
+  String username;
+  String email;
+  String description;
+
+  User({required this.name, required this.username, required this.email, required this.description});
+}
+
+User defaultUser = User(
+  name: 'David Lemuel Lie',
+  username: 'FilVram',
+  email: 'David.lemuel@binus.ac.id',
+  description: 'I am a very diligent person in studying.'
+);
+
+class ProfileScreen extends StatefulWidget {
+  final User user;
+  ProfileScreen({required this.user});
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -328,9 +352,9 @@ class ProfileScreen extends StatelessWidget {
               radius: 50,
             ),
             SizedBox(height: 20),
-            ProfileInfo(title: 'Name', info: ': David Lemuel Lie'),
-            ProfileInfo(title: 'Username', info: ': FilVram'),
-            ProfileInfo(title: 'Email address', info: ': David.lemuel@binus.ac.id'),
+            ProfileInfo(title: 'Name          :', info: '${widget.user.name}'),
+            ProfileInfo(title: 'Username      :', info: '${widget.user.username}'),
+            ProfileInfo(title: 'Email address :', info: '${widget.user.email}'),
             SizedBox(height: 20),
             Align(
               alignment: Alignment.centerLeft,
@@ -365,13 +389,19 @@ class ProfileScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                'I am a very diligent person in studying.',
+                '${widget.user.description}',
                 style: TextStyle(color: Colors.white),
               ),
             ),
             SizedBox(height: 10),  // Adjust this height for spacing between Description and Edit button
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen(user: widget.user)))
+               .then((_) {
+                  // This causes the widget to rebuild when you return from the EditProfileScreen
+                  setState(() {});
+                });
+              },
               child: Text('Edit'),
               style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue[800])),
             ),
@@ -427,7 +457,7 @@ class ProfileScreen extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.person, color: Colors.white),
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ProfileScreen()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ProfileScreen(user: widget.user)));
               },
             ),
           ],
@@ -436,6 +466,149 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+// class ProfileScreen extends StatelessWidget {
+//   @override
+//   final User user;
+//   ProfileScreen({required this.user});
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Color(0xFF7E8AB3),
+//       appBar: AppBar(
+//         title: Text('S I G N O M E T R Y'),
+//         backgroundColor: Color(0xFF12243C),
+//         elevation: 0,
+//         actions: <Widget>[
+//           IconButton(
+//             icon: Icon(Icons.settings, color: Colors.white),
+//             onPressed: () {
+//               // Navigate to settings or perform another action
+//             },
+//           ),
+//         ],
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           children: [
+//             CircleAvatar(
+//               // backgroundImage: AssetImage('path_to_your_image.jpg'), // Replace with your image path
+//               radius: 50,
+//             ),
+//             SizedBox(height: 20),
+//             ProfileInfo(title: 'Name          :', info: '${user.name}'),
+//             ProfileInfo(title: 'Username      :', info: '${user.username}'),
+//             ProfileInfo(title: 'Email address :', info: '${user.email}'),
+//             SizedBox(height: 20),
+//             Align(
+//               alignment: Alignment.centerLeft,
+//               child: Text(
+//                 'Badges :',
+//                 style: TextStyle(color: Colors.white, fontSize: 18),
+//               ),
+//             ),
+//             SizedBox(height: 10),
+//             Row(
+//               children: [
+//                 // Badge(icon: Icons.star_border, label: 'S+'),
+//                 // SizedBox(width: 10),
+//                 // Badge(icon: Icons.book_online, label: 'D'),
+//                 // SizedBox(width: 10),
+//                 // Badge(icon: Icons.translate, label: 'ASL'),
+//               ],
+//             ),
+//             SizedBox(height: 20),
+//             Align(
+//               alignment: Alignment.centerLeft,
+//               child: Text(
+//                 'Description :',
+//                 style: TextStyle(color: Colors.white, fontSize: 18),
+//               ),
+//             ),
+//             SizedBox(height: 20), // Adjust the height here for spacing after the Description
+//             Container(
+//               padding: EdgeInsets.all(10),
+//               decoration: BoxDecoration(
+//                 color: Colors.grey[600],
+//                 borderRadius: BorderRadius.circular(10),
+//               ),
+//               child: Text(
+//                 '${user.description}',
+//                 style: TextStyle(color: Colors.white),
+//               ),
+//             ),
+//             SizedBox(height: 10),  // Adjust this height for spacing between Description and Edit button
+//             ElevatedButton(
+//               onPressed: () {
+//                 Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen(user: user)))
+//                .then((_) {
+//                   // This causes the widget to rebuild when you return from the EditProfileScreen
+//                   setState(() {});
+//                 });
+//               },
+//               child: Text('Edit'),
+//               style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue[800])),
+//             ),
+//             SizedBox(height: 20),  // Adjust this height for spacing between Edit and Sign Out button
+//             ElevatedButton(
+//               onPressed: () {},
+//               child: Text('Sign Out'),
+//               style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
+//             ),
+//             Spacer(flex: 3),
+//           ],
+//         ),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () {
+
+//         },
+//         child: Icon(Icons.add),
+//         backgroundColor: Color(0xFF6172AA),
+//       ),
+//       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+//       bottomNavigationBar: BottomAppBar(
+//         shape: CircularNotchedRectangle(),
+//         color: Color(0xFF12243C),
+//         notchMargin: 6.0,
+//         child: Row(
+//           mainAxisSize: MainAxisSize.max,
+//           mainAxisAlignment: MainAxisAlignment.spaceAround,
+//           children: <Widget>[
+//             IconButton(
+//               icon: Icon(Icons.home, color: Colors.white),
+//               onPressed: () {
+//                 // Navigate to Home Page
+//                 Navigator.pop(context);
+//               },
+//             ),
+//             IconButton(
+//               icon: Icon(Icons.library_books, color: Colors.white),
+//               onPressed: () {
+//                 // Navigate to Library Page
+//                 Navigator.pop(context);
+//                 Navigator.of(context).pushNamed('/dict');
+//               },
+//             ),
+//             SizedBox(width: 50),  // Creates space for the floating action button
+//             IconButton(
+//               icon: Icon(Icons.lock, color: Colors.white,),
+//               onPressed: () {
+//                 Navigator.pop(context);
+//                 Navigator.of(context).pushNamed('/lock');
+//               },
+//             ),
+//             IconButton(
+//               icon: Icon(Icons.person, color: Colors.white),
+//               onPressed: () {
+//                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ProfileScreen(user: user)));
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class ProfileInfo extends StatelessWidget {
   final String title;
@@ -454,6 +627,74 @@ class ProfileInfo extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class EditProfileScreen extends StatefulWidget {
+  final User user;
+
+  EditProfileScreen({required this.user});
+
+  @override
+  _EditProfileScreenState createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  late TextEditingController _nameController;
+  late TextEditingController _usernameController;
+  late TextEditingController _emailController;
+  late TextEditingController _descriptionController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController(text: widget.user.name);
+    _usernameController = TextEditingController(text: widget.user.username);
+    _emailController = TextEditingController(text: widget.user.email);
+    _descriptionController = TextEditingController(text: widget.user.description);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Edit Profile'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: () {
+              // Update user object
+              widget.user.name = _nameController.text;
+              widget.user.username = _usernameController.text;
+              widget.user.email = _emailController.text;
+              widget.user.description = _descriptionController.text;
+
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            TextField(controller: _nameController, decoration: InputDecoration(labelText: 'Name')),
+            TextField(controller: _usernameController, decoration: InputDecoration(labelText: 'Username')),
+            TextField(controller: _emailController, decoration: InputDecoration(labelText: 'Email Address')),
+            TextField(controller: _descriptionController, decoration: InputDecoration(labelText: 'Description')),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _usernameController.dispose();
+    _emailController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
   }
 }
 class _MyHomePageState extends State<MyHomePage> {
