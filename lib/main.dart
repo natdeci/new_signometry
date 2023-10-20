@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => MyHomePage(),
         '/lock': (context) => LockPage(),
         '/dict': (context) => DisctionaryScreen(),
+        '/prof': (context) => ProfileScreen(),
       },
     );
   }
@@ -27,10 +28,10 @@ class DisctionaryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Color(0xFF7E8AB3),
       appBar: AppBar(
-        title: Text('SIGNOMETRY'),
-        backgroundColor: Colors.transparent,
+        title: Text('S I G N O M E T R Y'),
+        backgroundColor: Color(0xFF12243C),
         elevation: 0,
       ),
       body: Padding(
@@ -97,12 +98,12 @@ class DisctionaryScreen extends StatelessWidget {
 
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.purple,
+        backgroundColor: Color(0xFF6172AA),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
-        color: Colors.black,
+        color: Color(0xFF12243C),
         notchMargin: 6.0,
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -131,7 +132,8 @@ class DisctionaryScreen extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.person, color: Colors.white),
               onPressed: () {
-
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed('/prof');
               },
             ),
           ],
@@ -180,7 +182,8 @@ class LockPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        title: Text('S I G N O M E T R Y'),
+        backgroundColor: Color(0xFF12243C),
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -197,7 +200,7 @@ class LockPage extends StatelessWidget {
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF2C2C2C), Colors.black],
+                colors: [Colors.black, Color(0xFF7E8AB3)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -247,7 +250,7 @@ class LockPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
-        color: Colors.black,
+        color: Color(0xFF12243C),
         notchMargin: 6.0,
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -278,7 +281,8 @@ class LockPage extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.person, color: Colors.white),
               onPressed: () {
-                
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed('/prof');
               },
             ),
           ],
@@ -290,14 +294,168 @@ class LockPage extends StatelessWidget {
           // Navigator.of(context).pushNamedAndRemoveUntil('/lock', ModalRoute.withName('/'));
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.purple,
+        backgroundColor: Color(0xFF6172AA),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
 
+class ProfileScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xFF7E8AB3),
+      appBar: AppBar(
+        title: Text('S I G N O M E T R Y'),
+        backgroundColor: Color(0xFF12243C),
+        elevation: 0,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings, color: Colors.white),
+            onPressed: () {
+              // Navigate to settings or perform another action
+            },
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            CircleAvatar(
+              // backgroundImage: AssetImage('path_to_your_image.jpg'), // Replace with your image path
+              radius: 50,
+            ),
+            SizedBox(height: 20),
+            ProfileInfo(title: 'Name', info: ': David Lemuel Lie'),
+            ProfileInfo(title: 'Username', info: ': FilVram'),
+            ProfileInfo(title: 'Email address', info: ': David.lemuel@binus.ac.id'),
+            SizedBox(height: 20),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Badges :',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                // Badge(icon: Icons.star_border, label: 'S+'),
+                // SizedBox(width: 10),
+                // Badge(icon: Icons.book_online, label: 'D'),
+                // SizedBox(width: 10),
+                // Badge(icon: Icons.translate, label: 'ASL'),
+              ],
+            ),
+            SizedBox(height: 20),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Description :',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+            SizedBox(height: 20), // Adjust the height here for spacing after the Description
+            Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.grey[600],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                'I am a very diligent person in studying.',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            SizedBox(height: 10),  // Adjust this height for spacing between Description and Edit button
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('Edit'),
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue[800])),
+            ),
+            SizedBox(height: 20),  // Adjust this height for spacing between Edit and Sign Out button
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('Sign Out'),
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
+            ),
+            Spacer(flex: 3),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
 
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Color(0xFF6172AA),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: Color(0xFF12243C),
+        notchMargin: 6.0,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.home, color: Colors.white),
+              onPressed: () {
+                // Navigate to Home Page
+                Navigator.pop(context);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.library_books, color: Colors.white),
+              onPressed: () {
+                // Navigate to Library Page
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed('/dict');
+              },
+            ),
+            SizedBox(width: 50),  // Creates space for the floating action button
+            IconButton(
+              icon: Icon(Icons.lock, color: Colors.white,),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed('/lock');
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.person, color: Colors.white),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ProfileScreen()));
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileInfo extends StatelessWidget {
+  final String title;
+  final String info;
+
+  ProfileInfo({required this.title, required this.info});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Expanded(child: Text(title, style: TextStyle(color: Colors.white, fontSize: 18))),
+          Text(info, style: TextStyle(color: Colors.white, fontSize: 18)),
+        ],
+      ),
+    );
+  }
+}
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
 
@@ -319,13 +477,13 @@ class _MyHomePageState extends State<MyHomePage> {
             _currentIndex = 2;  // If you want the button to switch to a specific page.
           });
         },
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFF6172AA),
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
-        color: Colors.black,
+        color: Color(0xFF12243C),
         notchMargin: 6.0,
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -359,7 +517,7 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.person, color: Colors.white),
               onPressed: () {
                 setState(() {
-                  _currentIndex = 4;
+                  Navigator.of(context).pushNamed('/prof');
                 });
               },
             ),
