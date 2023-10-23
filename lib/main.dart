@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         '/lock': (context) => LockPage(),
         '/dict': (context) => DisctionaryScreen(),
         '/prof': (context) => ProfileScreen(user: defaultUser),
+        '/add': (context) => CameraScreen(),
       },
     );
   }
@@ -180,6 +181,90 @@ class DisctionaryScreen extends StatelessWidget {
   }
 }
 
+class CameraScreen extends StatefulWidget {
+  @override
+  _CameraScreenState createState() => _CameraScreenState();
+}
+
+class _CameraScreenState extends State<CameraScreen> {
+  @override
+  Widget build(BuildContext context) {
+    // Here, you'd have the logic and UI for displaying the camera,
+    // as well as any buttons or controls related to the camera.
+    return Scaffold(
+      appBar: AppBar(title: Text("Camera")),
+      body: Center(
+        child: Column(
+          children: [
+            Builder(
+              builder: (BuildContext context) {
+                html.document.getElementById('camera')!.hidden = false;
+                getCamera();
+                return Container(); // Empty widget after executing the above lines.
+              }
+            ),
+            ElevatedButton(
+              child: Text("Close Camera"),
+              onPressed: () {
+                // Logic to stop the camera
+                stopCamera();
+                Navigator.pop(context); // This will close the camera screen and return to the previous screen
+              },
+            )
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: Color(0xFF12243C),
+        notchMargin: 6.0,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.home, color: Colors.white),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.library_books, color: Colors.white),
+              onPressed: () {
+                Navigator.of(context).pushNamed('/dict');
+              },
+            ),
+            SizedBox(width: 50),  // Creates space for the floating action button
+            IconButton(
+              icon: Icon(Icons.lock, color: Colors.white,),
+              onPressed: () {
+                Navigator.of(context).pushNamed('/lock');
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.person, color: Colors.white),
+              onPressed: () {
+                setState(() {
+                  Navigator.of(context).pushNamed('/prof');
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          stopCamera();
+          Navigator.pop(context);
+        },
+        child: Icon(Icons.close),
+        backgroundColor: Color(0xFF6172AA),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+}
+
 class LockPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -293,8 +378,8 @@ class LockPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Action for floating button
-          // Navigator.of(context).pushNamedAndRemoveUntil('/lock', ModalRoute.withName('/'));
+          Navigator.pop(context);
+          Navigator.of(context).pushNamed('/add');
         },
         child: Icon(Icons.add),
         backgroundColor: Color(0xFF6172AA),
@@ -329,6 +414,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -420,10 +506,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
+          Navigator.pop(context);
+          Navigator.of(context).pushNamed('/add');
         },
-        child: Icon(Icons.add),
         backgroundColor: Color(0xFF6172AA),
+        child: Icon(_currentIndex != 2 ? Icons.add : Icons.close),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -721,21 +808,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: _pages[_currentIndex],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-        if (_currentIndex != 2) { // If not on the camera screen
-            setState(() {
-                _currentIndex = 2;
-            });
-            html.document.getElementById('camera')!.hidden = false;
-            getCamera();
-        } else {
-            stopCamera();
-            setState(() {
-                _currentIndex = 0; // Navigate away or reset the UI after closing the camera
-            });
-        }
+          Navigator.of(context).pushNamed('/add');
         },
         backgroundColor: Color(0xFF6172AA),
-        child: Icon(_currentIndex != 2 ? Icons.camera : Icons.close),
+        child: Icon(_currentIndex != 2 ? Icons.add : Icons.close),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
