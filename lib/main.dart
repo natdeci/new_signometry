@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:html' as html;
+import 'interop.dart';
+import 'dart:js' as js;
 
 void main() => runApp(MyApp());
 
@@ -697,6 +700,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.dispose();
   }
 }
+
+void stopCamera() {
+    js.context.callMethod('stopCamera', []);
+}
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
 
@@ -714,12 +721,21 @@ class _MyHomePageState extends State<MyHomePage> {
       body: _pages[_currentIndex],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            _currentIndex = 2;  // If you want the button to switch to a specific page.
-          });
+        if (_currentIndex != 2) { // If not on the camera screen
+            setState(() {
+                _currentIndex = 2;
+            });
+            html.document.getElementById('camera')!.hidden = false;
+            getCamera();
+        } else {
+            stopCamera();
+            setState(() {
+                _currentIndex = 0; // Navigate away or reset the UI after closing the camera
+            });
+        }
         },
         backgroundColor: Color(0xFF6172AA),
-        child: Icon(Icons.add),
+        child: Icon(_currentIndex != 2 ? Icons.camera : Icons.close),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(

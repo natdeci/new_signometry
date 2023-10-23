@@ -38,8 +38,41 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <video id="camera" width="640" height="480" autoplay></video>
+  <script>
+    // This is the function to access the camera
+    function getCamera() {
+        navigator.mediaDevices.getUserMedia({
+                video: true
+            })
+            .then(function(stream) {
+                let video = document.querySelector('video');
+                if (!video) {
+                    video = document.createElement('video');
+                    document.body.appendChild(video);
+                }
+                video.srcObject = stream;
+                video.onloadedmetadata = function(e) {
+                    video.play();
+                };
+            })
+            .catch(function(err) {
+                console.log(err.name + ": " + err.message);
+            });
+    }
+    function stopCamera() {
+      let video = document.querySelector('video');
+      if (video) {
+        let tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+        video.srcObject = null;
+        video.hidden = true;
+      }
+    }
+  </script>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
