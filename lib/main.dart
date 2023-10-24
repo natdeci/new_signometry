@@ -99,7 +99,8 @@ class DisctionaryScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
+          Navigator.pop(context);
+          Navigator.of(context).pushNamed('/add');
         },
         child: Icon(Icons.add),
         backgroundColor: Color(0xFF6172AA),
