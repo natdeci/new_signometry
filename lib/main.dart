@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+// import 'package:camera/camera.dart';
+// import 'package:tflite/tflite.dart';
 import 'dart:html' as html;
 import 'interop.dart';
 import 'dart:js' as js;
+import 'package:js/js.dart';
 
 void main() => runApp(MyApp());
 
@@ -190,10 +193,18 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
-    // Here, you'd have the logic and UI for displaying the camera,
-    // as well as any buttons or controls related to the camera.
     return Scaffold(
-      appBar: AppBar(title: Text("Camera")),
+      appBar: AppBar(title: Text("S I G N O M E T R Y"),
+      backgroundColor: Color(0xFF12243C),
+      automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            stopCamera();
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Center(
         child: Column(
           children: [
@@ -204,14 +215,22 @@ class _CameraScreenState extends State<CameraScreen> {
                 return Container(); // Empty widget after executing the above lines.
               }
             ),
-            ElevatedButton(
-              child: Text("Close Camera"),
-              onPressed: () {
-                // Logic to stop the camera
-                stopCamera();
-                Navigator.pop(context); // This will close the camera screen and return to the previous screen
-              },
-            )
+            ButtonBar(
+            alignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  stopCamera();
+                  Navigator.pop(context);
+                },
+                child: Text('Close Camera'),
+              ),
+              ElevatedButton(
+                onPressed: takePicture,
+                child: Text('Take Picture'),
+              ),
+            ],
+          ),
           ],
         ),
       ),
@@ -226,12 +245,15 @@ class _CameraScreenState extends State<CameraScreen> {
             IconButton(
               icon: Icon(Icons.home, color: Colors.white),
               onPressed: () {
+                stopCamera();
                 Navigator.pop(context);
               },
             ),
             IconButton(
               icon: Icon(Icons.library_books, color: Colors.white),
               onPressed: () {
+                stopCamera();
+                Navigator.pop(context);
                 Navigator.of(context).pushNamed('/dict');
               },
             ),
@@ -239,12 +261,16 @@ class _CameraScreenState extends State<CameraScreen> {
             IconButton(
               icon: Icon(Icons.lock, color: Colors.white,),
               onPressed: () {
+                stopCamera();
+                Navigator.pop(context);
                 Navigator.of(context).pushNamed('/lock');
               },
             ),
             IconButton(
               icon: Icon(Icons.person, color: Colors.white),
               onPressed: () {
+                stopCamera();
+                Navigator.pop(context);
                 setState(() {
                   Navigator.of(context).pushNamed('/prof');
                 });
