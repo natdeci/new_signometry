@@ -28,4 +28,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/a.jpeg
+    - assets/b.jpeg
     - assets/tflite_model.tflite

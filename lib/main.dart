@@ -832,7 +832,106 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_currentIndex],
+      appBar: AppBar(
+        title: Text('S I G N O M E T R Y'),
+        backgroundColor: Color(0xFF12243C),
+        elevation: 0,
+        actions: <Widget>[
+        ],
+      ),
+      body: Column( // Replace SingleChildScrollView with Column for a more structured layout
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          // Progress section
+          Container(
+            padding: EdgeInsets.all(16.0),
+            child: Card(
+              color: Color(0xFF23395D),
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      'Progress',
+                      style: TextStyle(color: Colors.white, fontSize: 20.0),
+                    ),
+                    SizedBox(height: 20.0),
+                    CircularProgressIndicator(
+                      value: 0.5, // 50% progress
+                      backgroundColor: Colors.white24,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                    SizedBox(height: 20.0),
+                    Text(
+                      '50%',
+                      style: TextStyle(color: Colors.white, fontSize: 24.0),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // Recently viewed section
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.all(16.0),
+              child: Card(
+                color: Color(0xFF23395D),
+                child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        'Recently Viewed',
+                        style: TextStyle(color: Colors.white, fontSize: 20.0),
+                      ),
+                      SizedBox(height: 20.0),
+                      // Update this Row to include Columns for image and text with margin
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          // Column for the first image and text with margin
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.all(8.0), // Add margin around the Column
+                              child: Column(
+                                children: [
+                                  Image.asset('assets/a.jpeg'), // First image asset
+                                  SizedBox(height: 8.0), // Add space between the image and the text
+                                  Text(
+                                    'A', // Text for the first image
+                                    style: TextStyle(color: Colors.white, fontSize: 18.0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          // Column for the second image and text with margin
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.all(8.0), // Add margin around the Column
+                              child: Column(
+                                children: [
+                                  Image.asset('assets/0.jpeg'), // Second image asset
+                                  SizedBox(height: 8.0), // Add space between the image and the text
+                                  Text(
+                                    'O', // Text for the second image
+                                    style: TextStyle(color: Colors.white, fontSize: 18.0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pushNamed('/add');

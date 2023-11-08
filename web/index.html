@@ -43,7 +43,6 @@
 </head>
 <body>
   <video id="camera" width="640" height="480" autoplay></video>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
   <script>
     // This is the function to access the camera
     function getCamera() {
@@ -88,6 +87,35 @@
       downloadLink.click();
       document.body.removeChild(downloadLink)
     }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+  <script>
+    let model;
+  
+    async function loadModel() {
+      // Replace the URL with the path to your model file
+      model = await tf.loadLayersModel('URL_to_your_model/model.json');
+    }
+  
+    async function predictImage(imageData) {
+      // Preprocess the image data as required by your model
+      // For example, if your model expects a 224x224 image, you need to adjust the size
+      // This is just a placeholder for whatever preprocessing your model needs
+      const tensor = tf.browser.fromPixels(imageData)
+        .resizeNearestNeighbor([224, 224]) // example resizing to the expected input size
+        .toFloat()
+        .expandDims();
+  
+      // Make the prediction
+      const prediction = await model.predict(tensor).data();
+  
+      // Process the prediction to get human-readable results
+      // This processing will depend on your specific use case
+      return prediction;
+    }
+  
+    // Call loadModel immediately or from a specific action
+    loadModel();
   </script>
   <script>
     window.addEventListener('load', function(ev) {
